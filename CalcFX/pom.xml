@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>pe.edu.upeu</groupId>
-	<artifactId>CalcFX </artifactId>
+	<artifactId>CalcFX</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>CalcFX </name>
+	<name>CalcFX</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -40,6 +40,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-controls</artifactId>
@@ -61,8 +62,8 @@
 			<version>0.4.0</version>
 		</dependency>
 
-	</dependencies>
 
+	</dependencies>
 
 	<build>
 		<plugins>
