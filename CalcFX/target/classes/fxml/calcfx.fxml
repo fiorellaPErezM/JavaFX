@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="314.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pe.edu.upeu.calcfx.control.CalcfxControl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="834.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pe.edu.upeu.calcfx.control.CalcfxControl">
    <children>
-      <HBox layoutX="5.0" layoutY="14.0" prefHeight="263.0" prefWidth="443.0" AnchorPane.bottomAnchor="199.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="14.0">
+      <HBox layoutX="5.0" layoutY="14.0" prefHeight="243.0" prefWidth="300.0" AnchorPane.bottomAnchor="199.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="215.0" AnchorPane.topAnchor="14.0">
          <children>
             <AnchorPane prefHeight="575.0" prefWidth="358.0">
                <children>
@@ -111,6 +110,15 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
+      <TableView fx:id="tableView" layoutX="305.0" layoutY="36.0" prefHeight="413.0" prefWidth="516.0">
+        <columns>
+          <TableColumn fx:id="num1x" prefWidth="66.0" text="Num1" />
+          <TableColumn fx:id="num2x" prefWidth="69.0" text="Num2" />
+            <TableColumn fx:id="operx" prefWidth="48.0" text="Oper" />
+            <TableColumn fx:id="resultx" prefWidth="99.0" text="Result" />
+            <TableColumn fx:id="opcionesx" prefWidth="232.0" text="Opciones" />
+        </columns>
+      </TableView>
       <Button fx:id="btnBinario" layoutX="14.0" layoutY="366.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#controlClick" prefHeight="39.0" prefWidth="289.0" text="=&gt;">
          <font>
             <Font name="System Bold" size="18.0" />
