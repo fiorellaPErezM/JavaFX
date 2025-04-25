@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Declaración estándar XML -->
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<!-- Importa clases necesarias para definir la interfaz en JavaFX -->
+
+<AnchorPane prefHeight="584.0" prefWidth="905.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pe.edu.upeu.calcfx.control.ResultadoMichiControl">
+    <!-- AnchorPane es el contenedor principal; se vincula al controlador ResultadoMichiControl -->
+
+    <children>
+        <!-- Botones para manejar acciones de la partida -->
+        <Button fx:id="iniciarButton" layoutX="387.0" layoutY="117.0" mnemonicParsing="false" onAction="#iniciarNuevaPartida" prefHeight="27.0" prefWidth="66.0" text="Iniciar" />
+        <!-- Botón para iniciar nueva partida -->
+        <Button fx:id="anularButton" layoutX="467.0" layoutY="117.0" mnemonicParsing="false" onAction="#anularPartida" prefHeight="27.0" prefWidth="66.0" text="Anular" />
+        <!-- Botón para anular la partida en curso -->
+
+        <!-- Textos que indican dónde ingresar nombres -->
+        <Text layoutX="311.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingrese el Nombre del Jugador 2:" />
+        <Text layoutX="311.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingrese el Nombre del Jugador 1:" />
+
+        <!-- Campos de texto para ingresar los nombres de los jugadores -->
+        <TextField fx:id="jugador1Field" layoutX="500.0" layoutY="8.0" prefWidth="150.0" />
+        <TextField fx:id="jugador2Field" layoutX="500.0" layoutY="61.0" prefWidth="150.0" />
+
+        <!-- Textos que muestran los nombres actuales de los jugadores -->
+        <Text fx:id="jugador1Text" layoutX="37.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del Jugador 1 que esta jugando:" wrappingWidth="224.23046875" />
+        <Text fx:id="jugador2Text" layoutX="38.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del Jugador 2 que esta jugando:" />
+
+        <!-- Tabla donde se muestran los resultados de las partidas -->
+        <TableView fx:id="tableView" layoutX="17.0" layoutY="208.0" prefHeight="362.0" prefWidth="871.0">
+            <columns>
+                <TableColumn fx:id="nombrePartidaCol" prefWidth="104.0" text="Nombre Partido" />
+                <TableColumn fx:id="jugador1Col" prefWidth="186.0" text="Nom Jugador 1" />
+                <TableColumn fx:id="jugador2Col" prefWidth="163.0" text="Nom Jugador 2" />
+                <TableColumn fx:id="ganadorCol" prefWidth="176.0" text="Nom Ganador" />
+                <TableColumn fx:id="puntoCol" prefWidth="76.0" text="Puntuación" />
+                <TableColumn fx:id="estadoCol" prefWidth="159.0" text="Estado" />
+            </columns>
+        </TableView>
+
+        <!-- Texto que indica el turno actual -->
+        <Text fx:id="turnoText" layoutX="34.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Turno del jugador: " />
+
+        <!-- GridPane para el tablero del juego (3x3) -->
+        <GridPane fx:id="tablero" layoutX="713.0" layoutY="27.0" prefHeight="181.0" prefWidth="161.0">
+            <columnConstraints>
+                <ColumnConstraints prefWidth="70" />
+                <ColumnConstraints prefWidth="70" />
+                <ColumnConstraints prefWidth="70" />
+                <!-- Define el ancho de cada columna -->
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints prefHeight="48" />
+                <RowConstraints prefHeight="48" />
+                <RowConstraints prefHeight="48" />
+                <!-- Define la altura de cada fila -->
+            </rowConstraints>
+            <children>
+                <!-- Fila 1 del tablero -->
+                <Button fx:id="btn00" prefHeight="50.0" prefWidth="50.0" text="" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Button fx:id="btn01" prefHeight="50.0" prefWidth="50.0" text="" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Button fx:id="btn02" prefHeight="50.0" prefWidth="50.0" text="" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                <!-- Fila 2 del tablero -->
+                <Button fx:id="btn10" prefHeight="50.0" prefWidth="50.0" text="" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <Button fx:id="btn11" prefHeight="50.0" prefWidth="50.0" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Button fx:id="btn12" prefHeight="50.0" prefWidth="50.0" text="" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <!-- Fila 3 del tablero -->
+                <Button fx:id="btn20" prefHeight="50.0" prefWidth="50.0" text="" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <Button fx:id="btn21" prefHeight="50.0" prefWidth="50.0" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Button fx:id="btn22" prefHeight="50.0" prefWidth="50.0" text="" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            </children>
+        </GridPane>
+
+        <!-- Textos extra (posiblemente duplicados) para mostrar nombres -->
+        <Text fx:id="jugador1Text1" layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del Jugador 1:" wrappingWidth="224.23046875" />
+        <Text fx:id="jugador1Text11" layoutX="14.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del Jugador 2:" wrappingWidth="224.23046875" />
+    </children>
+</AnchorPane>
