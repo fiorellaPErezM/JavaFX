@@ -1,11 +1,32 @@
 package pe.edu.upeu.calcfx.modelo;
 
 public class CalcTO {
+    int id;
     String num1;
     String num2;
     char operador;
     String resultado;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public int maxId() {
+        int i=0;
+        try {
+            ps = connection.prepareStatement("SELECT (max(id)+1) as idx from calculadora ");
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                i= rs.getInt("idx");
+            }
+            return i;
+        } catch (Exception e) {
+            return i;
+        }
+    }
     public String getNum1() {
         return num1;
     }

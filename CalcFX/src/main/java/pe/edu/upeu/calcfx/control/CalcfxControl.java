@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 import org.springframework.stereotype.Controller;
 import pe.edu.upeu.calcfx.modelo.CalcTO;
+import pe.edu.upeu.calcfx.servicio.CalcRepoSql;
 import pe.edu.upeu.calcfx.servicio.CalcServicioI;
 
 import java.util.List;
@@ -48,6 +49,8 @@ public class CalcfxControl {
 
     int indexID=-1;
     int idx=0;
+    @Autowired
+    private CalcRepoSql calcRepoSql;
 
 
     @FXML
@@ -175,6 +178,7 @@ public class CalcfxControl {
                 if (indexID!=-1){
                    servicioI.update(to,indexID);
                 }else {
+                    calcRepoSql.guardarIdentidad(to);
                     servicioI.save(to);
                 }
 
