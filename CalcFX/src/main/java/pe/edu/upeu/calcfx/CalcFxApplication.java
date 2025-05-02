@@ -1,11 +1,11 @@
 package pe.edu.upeu.calcfx;
 
 import atlantafx.base.theme.PrimerLight;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.application.Application;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;

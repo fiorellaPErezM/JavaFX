@@ -9,9 +9,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
 @Component
 public class CalcRepoSql {
-    Connection connection =new Conn().connectSQLite();
+    Connection connection = new Conn().connectSQLite();
     PreparedStatement ps;
     ResultSet rs = null;
 
@@ -25,27 +26,17 @@ public class CalcRepoSql {
                 CalcTO calcTO = new CalcTO();
                 calcTO.setNum1(rs.getString("num1"));
                 calcTO.setNum2(rs.getString("num2"));
-                calcTO.setOperador(rs.getString("Operador").charAt(0));
+                calcTO.setOperador(rs.getString("operador").charAt(0));
                 calcTO.setResultado(rs.getString("resultado"));
+                calcTO.setId(rs.getInt("id"));
                 lista.add(calcTO);
             }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         return lista;
     }
 
-    public int guardarIdentidad(CalcTO c) {
-        int result=0;
-        c.setId(maxId());
-        try {
-            ps = connection.prepareStatement("INSERT INTO calculadora(id, num1, num2, operador, resultado)"
-                    + " VALUES("+c.getId()+", '"+c.getNum1()+"', '"+c.getNum2()+"', '"+c.getOperador()+"', '"+c.getResultado()+"')");
-            result= ps.executeUpdate();
-        } catch (Exception e) {
-            System.err.println("Error: "+e.getMessage());
-        }
-        return result;
-    }
     public int maxId() {
         int i=0;
         try {
@@ -60,5 +51,40 @@ public class CalcRepoSql {
         }
     }
 
-}
+    public int guardarEntidad(CalcTO c) {
+        int result=0;
+        c.setId(maxId());
+        try {
+            ps = connection.prepareStatement("INSERT INTO calculadora(id, num1,num2, operador, resultado)"
+                    + " VALUES("+c.getId()+", '"+c.getNum1()+"', '"+c.getNum2()+"','"
+                    +c.getOperador()+"', '"+c.getResultado()+"')");
+            result= ps.executeUpdate();
+        } catch (Exception e) {
+            System.err.println("Error: "+e.getMessage());
+        }
+        return result;
+    }
+public boolean eliminarEntidad(CalcTO c) {
+        int result=0;
+        try {
+            ps = connection.prepareStatement("DELETE FROM calculadora WHERE id = "+c.getId());
+            ps.executeUpdate();
 
+        }catch (Exception e) {
+            System.err.println("Error: "+e.getMessage());
+        }
+        return result==1;
+     }
+
+     public boolean actualizarEntidad(CalcTO c, int id) {
+         int result=0;
+         try {
+            ps=connection.prepareStatement("update calculadora set num1="+c.getNum1() + ", num2="+c.getNum2()+", operador='"+c.getOperador()+"', resultado="+c.getResultado()+" where id = "+id);
+        result=ps.executeUpdate();
+         }catch (Exception e) {
+            System.err.println("Error: "+e.getMessage());
+        }
+         return result==1;
+     }
+
+}

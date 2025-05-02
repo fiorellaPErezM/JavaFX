@@ -11,7 +11,6 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 import org.springframework.stereotype.Controller;
 import pe.edu.upeu.calcfx.modelo.CalcTO;
 import pe.edu.upeu.calcfx.servicio.CalcRepoSql;
@@ -26,40 +25,33 @@ public class CalcfxControl {
     CalcServicioI servicioI;
 
     @FXML
-    TableView <CalcTO> tableView;
+    TableView<CalcTO> tableView;
     private ObservableList<CalcTO> datos;
-    List<CalcTO>lista;
-
-
-    @FXML
-    TableColumn<CalcTO,String> num1x;
-    @FXML
-    TableColumn<CalcTO,String>num2x;
-    @FXML
-    TableColumn<CalcTO,Character>operx;
-    @FXML
-    TableColumn<CalcTO,String>resultx;
-    @FXML
-    TableColumn<CalcTO,Void>opcionesx;
+    List<CalcTO> lista;
 
     @FXML
-    private final ProjectInfoProperties projectInfoProperties;
+    TableColumn<CalcTO, String> num1x;
+    @FXML
+    TableColumn<CalcTO, String> num2x;
+    @FXML
+    TableColumn<CalcTO, Character> operx;
+    @FXML
+    TableColumn<CalcTO, String> resultx;
+    @FXML
+    TableColumn<CalcTO, Void> opcionesx;
+
     @FXML
     private TextField txtResultado;
 
     int indexID=-1;
     int idx=0;
-    @Autowired
-    private CalcRepoSql calcRepoSql;
 
+    @Autowired
+    CalcRepoSql calcRepoSql;
 
     @FXML
     private void initialize() {
         listar();
-    };
-
-    public CalcfxControl(ProjectInfoProperties projectInfoProperties) {
-        this.projectInfoProperties = projectInfoProperties;
     }
 
     private void escribirNumero(String numero) {
@@ -67,125 +59,68 @@ public class CalcfxControl {
     }
 
     private void agregarOperador(String operador) {
+
         if(!txtResultado.getText().isEmpty() && txtResultado.getText().length()>=4){
             char op = txtResultado.getText().charAt(txtResultado.getText().length()-2);
-            if(op!='+' && op!='-'&& op!='/' && op!='*' && op!='π'&& op!='√'){
+            if(op!='+' && op!='-' && op!='/'&& op!='*'){
                 txtResultado.appendText(" " + operador + " ");
             }
         }else{
             txtResultado.appendText(" " + operador + " ");
         }
+
     }
-
-
-
 
     private void calcularResultado() {
         try {
-            String expression = txtResultado.getText().trim();
-            String[] tokens = expression.split(" ");
-
-            if (tokens.length == 1) {
-                switch (tokens[0]) {
-                    case "π":
-                        txtResultado.setText(String.valueOf(Math.PI));
-                        return;
-                    default:
-                        try {
-                            Double.parseDouble(tokens[0]);
-                            return;
-                        } catch (NumberFormatException e) {
-                            txtResultado.setText("Error: Entrada inválida");
-                            return;
-                        }
-                }
-
-            } else if (tokens.length == 2) {
-                String operador = tokens[0];
-                String operandoStr = tokens[1];
-                try {
-                    double operando = Double.parseDouble(operandoStr);
-                    switch (operador) {
-                        case "√":
-                            if (operando >= 0) {
-                                txtResultado.setText(String.valueOf(Math.sqrt(operando)));
-                            } else {
-                                txtResultado.setText("Error: Raíz negativa");
-                            }
-                            return;
-                        case "1/x":
-                            if (operando != 0) {
-                                txtResultado.setText(String.valueOf(1 / operando));
-                            } else {
-                                txtResultado.setText("Error: Div/0");
-                            }
-                            return;
-                        case "=>":
-                            txtResultado.setText("Binario: " + Integer.toBinaryString((int) operando));
-                            return;
-                        default:
-                            txtResultado.setText("Error: Formato inválido");
-                            return;
-                    }
-                } catch (NumberFormatException e) {
-                    txtResultado.setText("Error: Operando inválido");
-                    return;
-                }
-
-            } else if (tokens.length == 3) {
-                double num1 = Double.parseDouble(tokens[0]);
-                String operador = tokens[1];
-                double num2 = Double.parseDouble(tokens[2]);
-                double resultado = 0;
-                switch (operador) {
-                    case "+":
-                        resultado = num1 + num2;
-                        break;
-                    case "-":
-                        resultado = num1 - num2;
-                        break;
-                    case "*":
-                        resultado = num1 * num2;
-                        break;
-                    case "/":
-                        if (num2 != 0) {
-                            resultado = num1 / num2;
-                        } else {
-                            txtResultado.setText("Error: Div/0");
-                            return;
-                        }
-                        break;
-                    case "^":
-                        resultado = Math.pow(num1, num2);
-                        break;
-                    default:
-                        txtResultado.setText("Error: Operador inválido");
-                        return;
-                }
-
-                String[] dd = String.valueOf(resultado).split("\\.");
-                if (dd.length == 2 && dd[1].equals("0")) {
-                    txtResultado.setText(String.valueOf(dd[0]));
-                } else {
-                    txtResultado.setText(String.valueOf(resultado));
-                }
-
-                CalcTO to= new CalcTO();
-                to.setNum1(String.valueOf(num1));
-                to.setNum2(String.valueOf(num2));
-                to.setOperador(operador.charAt(0));
-                to.setResultado(String.valueOf(resultado));
-                if (indexID!=-1){
-                   servicioI.update(to,indexID);
-                }else {
-                    calcRepoSql.guardarIdentidad(to);
-                    servicioI.save(to);
-                }
-
-
-            } else {
-                txtResultado.setText("Error: Formato inválido");
+            String[] tokens = txtResultado.getText().split(" ");
+            if (tokens.length < 3) {
+                return;
             }
+            double num1 = Double.parseDouble(tokens[0]);
+            String operador = tokens[1];
+            double num2 = Double.parseDouble(tokens[2]);
+            double resultado = 0;
+            switch (operador) {
+                case "+":
+                    resultado = num1 + num2;
+                    break;
+                case "-":
+                    resultado = num1 - num2;
+                    break;
+                case "*":
+                    resultado = num1 * num2;
+                    break;
+                case "/":
+                    if (num2 != 0) {
+                        resultado = num1 / num2;
+                    } else {
+                        txtResultado.setText("Error: Div/0");
+                        return;
+                    }
+                    break;
+            }
+            String[] dd=String.valueOf(resultado).split("\\.");
+            System.out.println(dd.length);
+
+            if (dd.length == 2 && dd[1].equals("0")) {
+                txtResultado.setText(String.valueOf(dd[0]));
+            }else{
+                txtResultado.setText(String.valueOf(resultado));
+            }
+            CalcTO to = new CalcTO();
+            to.setNum1(String.valueOf(num1));
+            to.setNum2(String.valueOf(num2));
+            to.setOperador(operador.charAt(0));
+            to.setResultado(String.valueOf(resultado));
+            if(indexID!=-1){
+                calcRepoSql.actualizarEntidad(to, indexID);
+               // servicioI.update(to, indexID);
+            }else{
+                calcRepoSql.guardarEntidad(to);
+               // servicioI.save(to);
+            }
+
 
             listar();
 
@@ -193,8 +128,8 @@ public class CalcfxControl {
             txtResultado.setText("Error");
             System.out.println(e.getMessage());
         }
-
     }
+
 
     public void listar(){
         lista=servicioI.findAll();
@@ -213,7 +148,8 @@ public class CalcfxControl {
 
         addActionButtonsToTable();
 
-        datos = FXCollections.observableArrayList(lista);
+        //datos = FXCollections.observableArrayList(lista);
+        datos = FXCollections.observableArrayList(calcRepoSql.listarEntidad());
         tableView.setItems(datos);
 
     }
@@ -223,12 +159,13 @@ public class CalcfxControl {
         Button boton = (Button) event.getSource();
        switch (boton.getId()){
            case "btn0", "btn1","btn2","btn3", "btn4", "btn5", "btn6", "btn7", "btn8", "btn9": {escribirNumero(boton.getText());}break;
-           case "btnDiv", "btnMult","btnRest", "btnSum", "btnPot", "btnRaiz", "btnSobre", "btnPi", "btnBinario":{ agregarOperador(boton.getText()); }break;
+           case "btnDiv", "btnMult","btnRest", "btnSum":{ agregarOperador(boton.getText()); }break;
            case "btnBorrar":{ txtResultado.setText(""); }break;
            case "btnIgual":{  calcularResultado();  }break;
            default: {} break;
        }
     }
+
     private void addActionButtonsToTable() {
         Callback<TableColumn<CalcTO, Void>, TableCell<CalcTO, Void>>
                 cellFactory = param -> new TableCell<>() {
@@ -237,9 +174,8 @@ public class CalcfxControl {
             {
                 editButton.getStyleClass().setAll("btn", "btn-success");
                 editButton.setOnAction(event -> {
-
                     CalcTO cal = getTableView().getItems().get(getIndex());
-                    editOperCalc(cal, getIndex());
+                    editOperCalc(cal, cal.getId());
                 });
                 deleteButton.getStyleClass().setAll("btn", "btn-danger");
                 deleteButton.setOnAction(event -> {
@@ -261,12 +197,16 @@ public class CalcfxControl {
         };
         opcionesx.setCellFactory(cellFactory);
     }
-public void editOperCalc(CalcTO to, int index){
-        txtResultado.setText(String.valueOf(to.getNum1()+" "+to.getOperador()+" "+to.getNum2()));
-        indexID=index;
-}
-public void deleteOperCalc(CalcTO to){
+
+    public void editOperCalc(CalcTO to, int index){
+            txtResultado.setText(to.getNum1()+" "+to.getOperador()+" "+to.getNum2());
+            indexID=index;
+    }
+
+    public void deleteOperCalc(CalcTO to){
         servicioI.delete(to);
+        calcRepoSql.eliminarEntidad(to);
         listar();
     }
+
 }
